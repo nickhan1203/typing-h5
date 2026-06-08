@@ -1,0 +1,385 @@
+/* === Page === */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* === Header === */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 1px solid #dfdcd9;
+}
+
+.headerInner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerCenter {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.headerTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #373530;
+}
+
+.headerSpacer {
+  width: 56px;
+}
+
+.backBtn {
+  font-size: 14px;
+  font-weight: 400;
+  color: #787774;
+  transition: color 0.2s;
+  width: 56px;
+  text-align: left;
+}
+
+.backBtn:hover {
+  color: #373530;
+}
+
+.switchBtn {
+  font-size: 13px;
+  font-weight: 400;
+  color: #373530;
+  width: 56px;
+  text-align: right;
+  transition: opacity 0.2s;
+}
+
+.switchBtn:hover {
+  opacity: 0.7;
+}
+
+/* === Timer === */
+.timer {
+  font-size: 22px;
+  font-weight: 300;
+  color: #373530;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  transition: color 0.3s;
+}
+
+.timerUrgent {
+  color: #d44c47;
+  animation: pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+/* === Main === */
+.main {
+  flex: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  width: 100%;
+}
+
+/* === Article Bar === */
+.articleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.articleTitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: #787774;
+}
+
+.progress {
+  font-size: 13px;
+  font-weight: 400;
+  color: #787774;
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Realtime Stats Bar === */
+.statsBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 16px;
+  margin-bottom: 16px;
+  background: #f6f5f4;
+  border-radius: 10px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 48px;
+  flex: 1;
+}
+
+.statValue {
+  font-size: 22px;
+  font-weight: 300;
+  color: #373530;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 400;
+  color: #787774;
+  margin-top: 4px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 32px;
+  background: #dfdcd9;
+}
+
+/* === Text Area (typing display) === */
+.textArea {
+  background: #f6f5f4;
+  border-radius: 10px;
+  padding: 24px 20px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 1px;
+  min-height: 220px;
+  word-break: break-all;
+  cursor: text;
+  user-select: none;
+}
+
+.charDefault {
+  color: #a39e98;
+}
+
+.charCorrect {
+  color: #373530;
+}
+
+.charWrong {
+  color: #d44c47;
+}
+
+.charCurrent {
+  border-bottom: 2px solid #373530;
+}
+
+/* === Hidden Input === */
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* === Hint === */
+.hint {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: #a39e98;
+  margin-top: 20px;
+}
+
+/* === Reset Button === */
+.resetBtn {
+  display: block;
+  margin: 20px auto 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #787774;
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.resetBtn:hover {
+  background: #f6f5f4;
+  color: #373530;
+}
+
+/* === Article Picker List === */
+.articleList {
+  display: flex;
+  flex-direction: column;
+  background: #f6f5f4;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.articleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #ffffff;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.articleItem + .articleItem {
+  border-top: 1px solid #dfdcd9;
+}
+
+.articleItem:hover {
+  background: #f6f5f4;
+}
+
+.articleItemActive {
+  background: #f6f5f4;
+}
+
+.articleItemTitle {
+  font-size: 15px;
+  font-weight: 400;
+  color: #373530;
+}
+
+.articleItemLen {
+  font-size: 12px;
+  font-weight: 400;
+  color: #787774;
+}
+
+/* === Empty State === */
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emptyText {
+  font-size: 15px;
+  font-weight: 400;
+  color: #787774;
+  margin-bottom: 24px;
+}
+
+/* === Result Card === */
+.resultCard {
+  background: #f6f5f4;
+  border-radius: 10px;
+  padding: 40px 24px 32px;
+  text-align: center;
+}
+
+.resultHero {
+  margin-bottom: 32px;
+}
+
+.resultSpeed {
+  font-size: 56px;
+  font-weight: 300;
+  color: #373530;
+  letter-spacing: -1px;
+  line-height: 1;
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.resultUnit {
+  font-size: 14px;
+  font-weight: 400;
+  color: #787774;
+  margin-top: 8px;
+  display: block;
+}
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.resultItem {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px 12px;
+}
+
+.resultValue {
+  font-size: 22px;
+  font-weight: 400;
+  color: #373530;
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.resultLabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: #787774;
+  margin-top: 4px;
+  display: block;
+}
+
+.resultActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+/* === Buttons === */
+.btnPrimary {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #373530;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 6px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.btnPrimary:hover {
+  background: #1a1a1a;
+}
+
+.btnSecondary {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #f6f5f4;
+  color: #373530;
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 6px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.btnSecondary:hover {
+  background: #f0efed;
+}
