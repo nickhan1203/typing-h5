@@ -431,7 +431,11 @@ function PracticeContent() {
           </div>
         </div>
 
-        <div className={styles.textArea} ref={containerRef}>
+        <div
+          className={styles.textArea}
+          ref={containerRef}
+          onClick={() => inputRef.current?.focus()}
+        >
           {chars.map((char, i) => {
             let charClass = styles.charDefault;
             if (i < state.inputHistory.length) {
@@ -459,10 +463,16 @@ function PracticeContent() {
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
+          inputMode="text"
+          enterKeyHint="done"
           aria-label="打字输入区"
         />
 
-        {!state.isStarted && <p className={styles.hint}>点击上方文字区域开始打字</p>}
+        {!state.isStarted && (
+          <p className={styles.hint} onClick={() => inputRef.current?.focus()}>
+            点击上方文字区域开始打字
+          </p>
+        )}
 
         {state.isStarted && !state.isFinished && (
           <button onClick={handleRestart} className={styles.resetBtn}>
