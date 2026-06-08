@@ -22,6 +22,7 @@ function PracticeContent() {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showArticlePicker, setShowArticlePicker] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [pickerSortAsc, setPickerSortAsc] = useState(true);
   const [resultData, setResultData] = useState<{
     speed: number;
     accuracy: number;
@@ -288,6 +289,13 @@ function PracticeContent() {
     [handleRestart],
   );
 
+  const sortedPickerArticles = useMemo(() => {
+    return [...articles].sort((a, b) => {
+      const cmp = a.id.localeCompare(b.id);
+      return pickerSortAsc ? cmp : -cmp;
+    });
+  }, [articles, pickerSortAsc]);
+
   if (showArticlePicker) {
     return (
       <div className={styles.page}>
@@ -297,12 +305,17 @@ function PracticeContent() {
               ← 返回
             </button>
             <h1 className={styles.headerTitle}>选择文章</h1>
-            <div className={styles.headerSpacer} />
+            <button
+              className={styles.pickerSortBtn}
+              onClick={() => setPickerSortAsc((v) => !v)}
+            >
+              时间{pickerSortAsc ? '↑' : '↓'}
+            </button>
           </div>
         </header>
         <main className={styles.main}>
           <div className={styles.articleList}>
-            {articles.map((article) => (
+            {sortedPickerArticles.map((article) => (
               <button
                 key={article.id}
                 className={`${styles.articleItem} ${selectedArticle?.id === article.id ? styles.articleItemActive : ''}`}

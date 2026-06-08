@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { Article, ArticleGroup } from '@/types';
 import {
@@ -37,6 +37,13 @@ export default function ArticlesPage() {
   // Move article modal
   const [moveArticleId, setMoveArticleId] = useState<string | null>(null);
 
+  // Import state
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
+
+  // Sort state
+  const [sortAsc, setSortAsc] = useState(true);
+
   const refreshData = useCallback(() => {
     setArticles(getArticles());
     setGroups(getGroups());
@@ -46,9 +53,15 @@ export default function ArticlesPage() {
     refreshData();
   }, [refreshData]);
 
-  const displayedArticles = activeGroupId
-    ? getArticlesByGroup(activeGroupId)
-    : articles.filter((a) => !a.groupId);
+  const displayedArticles = useMemo(() => {
+    const list = activeGroupId
+      ? getArticlesByGroup(activeGroupId)
+      : articles.filter((a) => !a.groupId);
+    return [...list].sort((a, b) => {
+      const cmp = a.id.localeCompare(b.id);
+      return sortAsc ? cmp : -cmp;
+    });
+  }, [activeGroupId, articles, sortAsc]);
 
   const handleSave = useCallback(() => {
     if (!title.trim() || !content.trim()) return;
@@ -132,6 +145,55 @@ export default function ArticlesPage() {
     [moveArticleId, refreshData],
   );
 
+  const handleImport = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      setImporting(true);
+      setImportError(null);
+
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch('/api/import', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || '导入失败');
+        }
+
+        const { articles: importedArticles } = data as {
+          articles: { title: string; content: string }[];
+        };
+
+        importedArticles.forEach((a) => {
+          saveArticle({
+            id: Date.now().toString() + Math.random().toString(36).slice(2, 8),
+            title: a.title,
+            content: a.content,
+            groupId: activeGroupId,
+            createdAt: Date.now(),
+          });
+        });
+
+        refreshData();
+      } catch (err) {
+        setImportError(err instanceof Error ? err.message : '导入失败');
+      } finally {
+        setImporting(false);
+        // Reset file input so the same file can be re-imported
+        e.target.value = '';
+      }
+    },
+    [activeGroupId, refreshData],
+  );
+
   // Article form view
   if (showForm) {
     return (
@@ -212,6 +274,22 @@ export default function ArticlesPage() {
           </Link>
           <h1 className={styles.headerTitle}>文章管理</h1>
           <div className={styles.headerActions}>
+            <label className={styles.importBtn}>
+              {importing ? '导入中...' : '导入'}
+              <input
+                type="file"
+                accept=".txt,.epub"
+                onChange={handleImport}
+                disabled={importing}
+                className={styles.fileInput}
+              />
+            </label>
+            <button
+              className={styles.addBtn}
+              onClick={() => setSortAsc((v) => !v)}
+            >
+              时间{sortAsc ? '↑' : '↓'}
+            </button>
             <button
               onClick={() => setShowGroupManager(true)}
               className={styles.addBtn}
@@ -223,6 +301,12 @@ export default function ArticlesPage() {
             </button>
           </div>
         </div>
+        {importError && (
+          <div className={styles.importError}>
+            <span>{importError}</span>
+            <button onClick={() => setImportError(null)}>×</button>
+          </div>
+        )}
       </header>
 
       {/* Group tabs */}

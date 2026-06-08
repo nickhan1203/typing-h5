@@ -62,6 +62,48 @@
   opacity: 0.7;
 }
 
+.importBtn {
+  font-size: 14px;
+  font-weight: 400;
+  color: #373530;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.importBtn:hover {
+  opacity: 0.7;
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.importError {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+  font-size: 13px;
+  font-weight: 400;
+  color: #d44c47;
+}
+
+.importError button {
+  font-size: 16px;
+  color: #d44c47;
+  padding: 0 4px;
+  line-height: 1;
+}
+
 .saveBtn:disabled {
   color: #a39e98;
   cursor: not-allowed;

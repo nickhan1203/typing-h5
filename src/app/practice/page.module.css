@@ -67,6 +67,21 @@
   opacity: 0.7;
 }
 
+.pickerSortBtn {
+  font-size: 13px;
+  font-weight: 400;
+  color: #787774;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.pickerSortBtn:hover {
+  background: #f6f5f4;
+  color: #373530;
+}
+
 /* === Timer === */
 .timer {
   font-size: 22px;

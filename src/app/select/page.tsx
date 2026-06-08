@@ -15,6 +15,7 @@ function SelectContent() {
   const [groups, setGroups] = useState<ArticleGroup[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  const [sortAsc, setSortAsc] = useState(true);
 
   useEffect(() => {
     setGroups(getGroups());
@@ -24,22 +25,29 @@ function SelectContent() {
   const treeData = useMemo(() => {
     const result: { group: ArticleGroup | null; articles: Article[] }[] = [];
 
+    const sortFn = (a: Article, b: Article) => {
+      const cmp = a.id.localeCompare(b.id);
+      return sortAsc ? cmp : -cmp;
+    };
+
     // Groups with their articles
     for (const group of groups) {
-      result.push({
-        group,
-        articles: articles.filter((a) => a.groupId === group.id),
-      });
+      const groupArticles = articles
+        .filter((a) => a.groupId === group.id)
+        .sort(sortFn);
+      result.push({ group, articles: groupArticles });
     }
 
     // Ungrouped articles
-    const ungrouped = articles.filter((a) => !a.groupId);
+    const ungrouped = articles
+      .filter((a) => !a.groupId)
+      .sort(sortFn);
     if (ungrouped.length > 0) {
       result.push({ group: null, articles: ungrouped });
     }
 
     return result;
-  }, [groups, articles]);
+  }, [groups, articles, sortAsc]);
 
   const toggleGroup = useCallback((id: string) => {
     setCollapsed((prev) => {
@@ -73,7 +81,12 @@ function SelectContent() {
           <h1 className={styles.headerTitle}>
             选择文章 · {modeLabel}
           </h1>
-          <div className={styles.headerSpacer} />
+          <button
+            className={styles.sortBtn}
+            onClick={() => setSortAsc((v) => !v)}
+          >
+            时间{sortAsc ? '↑' : '↓'}
+          </button>
         </div>
       </header>
 
