@@ -100,6 +100,13 @@
   width: 100%;
 }
 
+/* On mobile with keyboard visible, reduce bottom padding */
+@media (max-height: 600px) {
+  .main {
+    padding-bottom: 16px;
+  }
+}
+
 /* === Article Bar === */
 .articleBar {
   display: flex;
@@ -168,14 +175,25 @@
   background: #f6f5f4;
   border-radius: 10px;
   padding: 24px 20px;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 400;
-  line-height: 2.2;
-  letter-spacing: 1px;
+  line-height: 1.9;
+  letter-spacing: 1.5px;
   min-height: 220px;
+  max-height: 360px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   word-break: break-all;
   cursor: text;
   user-select: none;
+}
+
+/* Tighter max-height when keyboard is likely open (short viewport) */
+@media (max-height: 600px) {
+  .textArea {
+    max-height: 200px;
+  }
 }
 
 .charDefault {
@@ -191,7 +209,7 @@
 }
 
 .charCurrent {
-  border-bottom: 2px solid #373530;
+  border-bottom: 2.5px solid #373530;
 }
 
 /* === Hidden Input === */

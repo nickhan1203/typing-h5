@@ -130,6 +130,21 @@ function PracticeContent() {
     }
   }, [showArticlePicker, showResult, selectedArticle]);
 
+  // Auto-scroll text area to follow typing progress
+  useEffect(() => {
+    if (containerRef.current) {
+      const currentEl = containerRef.current.querySelector(
+        `[data-index="${state.currentIndex}"]`,
+      ) as HTMLElement | null;
+      if (currentEl) {
+        currentEl.scrollIntoView({
+          block: 'center',
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [state.currentIndex]);
+
   const chars = useMemo(
     () => (selectedArticle ? selectedArticle.content.split('') : []),
     [selectedArticle],
@@ -446,7 +461,7 @@ function PracticeContent() {
               charClass = `${charClass} ${styles.charCurrent}`;
             }
             return (
-              <span key={i} className={charClass}>
+              <span key={i} data-index={i} className={charClass}>
                 {char}
               </span>
             );

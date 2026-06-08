@@ -1,0 +1,206 @@
+/* === Page === */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+/* === Header === */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 1px solid #dfdcd9;
+}
+
+.headerInner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #373530;
+}
+
+.headerSpacer {
+  width: 56px;
+}
+
+.backBtn {
+  font-size: 14px;
+  font-weight: 400;
+  color: #787774;
+  transition: color 0.2s;
+  width: 56px;
+  text-align: left;
+}
+
+.backBtn:hover {
+  color: #373530;
+}
+
+/* === Main === */
+.main {
+  flex: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  width: 100%;
+}
+
+/* === Empty State === */
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emptyText {
+  font-size: 15px;
+  font-weight: 400;
+  color: #787774;
+  margin-bottom: 24px;
+}
+
+.btnPrimary {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #373530;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.btnPrimary:hover {
+  background: #1a1a1a;
+}
+
+/* === Tree === */
+.tree {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.treeGroup {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* === Group Header === */
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 16px;
+  background: #f6f5f4;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.groupHeader:hover {
+  background: #f0efed;
+}
+
+.arrow {
+  font-size: 10px;
+  color: #787774;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  transform: rotate(90deg);
+}
+
+.arrowCollapsed {
+  transform: rotate(0deg);
+}
+
+.groupName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #373530;
+  flex: 1;
+}
+
+.groupCount {
+  font-size: 12px;
+  font-weight: 400;
+  color: #787774;
+}
+
+/* === Group Children === */
+.groupChildren {
+  padding: 0 0 0 16px;
+  background: #ffffff;
+}
+
+.groupEmpty {
+  font-size: 13px;
+  font-weight: 400;
+  color: #a39e98;
+  padding: 12px 16px;
+}
+
+/* === Article Item === */
+.articleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #dfdcd9;
+  transition: background 0.2s;
+}
+
+.articleItem:last-child {
+  border-bottom: none;
+}
+
+.articleItem:hover {
+  background: #f6f5f4;
+}
+
+.articleInfo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.articleTitle {
+  font-size: 15px;
+  font-weight: 400;
+  color: #373530;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.articleMeta {
+  font-size: 12px;
+  font-weight: 400;
+  color: #787774;
+  flex-shrink: 0;
+}
+
+.articleArrow {
+  font-size: 14px;
+  color: #787774;
+  flex-shrink: 0;
+  margin-left: 8px;
+}

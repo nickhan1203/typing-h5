@@ -142,8 +142,7 @@ export default function HomePage() {
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>练习模式</h3>
           <div className={styles.cards}>
-            <Link href="/practice?mode=free" className={styles.card}>
-              <div className={styles.cardIcon}></div>
+            <Link href="/select?mode=free" className={styles.card}>
               <h4 className={styles.cardTitle}>自由练习</h4>
               <p className={styles.cardDesc}>选择文章，按自己的节奏练习打字，无时间限制</p>
             </Link>
@@ -151,7 +150,6 @@ export default function HomePage() {
               onClick={() => setShowTimedPicker(true)}
               className={styles.card}
             >
-              <div className={styles.cardIcon}></div>
               <h4 className={styles.cardTitle}>计时赛</h4>
               <p className={styles.cardDesc}>限时挑战，在倒计时中完成打字，测试速度极限</p>
             </button>
@@ -249,7 +247,7 @@ export default function HomePage() {
               {TIMED_OPTIONS.map((opt) => (
                 <Link
                   key={opt.value}
-                  href={`/practice?mode=timed&duration=${opt.value}`}
+                  href={`/select?mode=timed&duration=${opt.value}`}
                   className={styles.pickerOption}
                 >
                   {opt.label}
