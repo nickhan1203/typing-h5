@@ -57,10 +57,35 @@ function PracticeContent() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const realtimeTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
   const isComposingRef = useRef(false);
   const inputHistoryRef = useRef<string[]>([]);
   const currentIndexRef = useRef(0);
   const startTimeRef = useRef<number | null>(null);
+
+  // Responsive line length based on container width
+  const [lineLength, setLineLength] = useState(20);
+  const lineLengthRef = useRef(20);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const calc = () => {
+      const w = el.clientWidth;
+      // Measure actual rendered character width from an existing span
+      const sample = el.querySelector('[data-index]') as HTMLElement | null;
+      if (sample) {
+        const charW = sample.getBoundingClientRect().width;
+        const len = Math.max(4, Math.floor((w - 36) / charW));
+        setLineLength(len);
+        lineLengthRef.current = len;
+      }
+    };
+    // Delay first measurement to ensure spans are rendered
+    setTimeout(calc, 0);
+    const observer = new ResizeObserver(calc);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [selectedArticle]); // remeasure when article changes
 
   useEffect(() => {
     const loadedArticles = getArticles();
@@ -131,25 +156,34 @@ function PracticeContent() {
     }
   }, [showArticlePicker, showResult, selectedArticle]);
 
-  // Auto-scroll text area to follow typing progress
+  const chars = useMemo(
+    () => (selectedArticle ? selectedArticle.content.split('') : []),
+    [selectedArticle],
+  );
+
+  // Split text into lines, length adapts to container width
+  const textLines = useMemo(() => {
+    const lines: { start: number; end: number }[] = [];
+    for (let i = 0; i < chars.length; i += lineLength) {
+      lines.push({ start: i, end: Math.min(i + lineLength, chars.length) });
+    }
+    return lines;
+  }, [chars, lineLength]);
+
+  // Auto-scroll to follow current line
   useEffect(() => {
-    if (containerRef.current) {
-      const currentEl = containerRef.current.querySelector(
-        `[data-index="${state.currentIndex}"]`,
+    if (containerRef.current && state.currentIndex < chars.length) {
+      const currentLine = containerRef.current.querySelector(
+        `[data-line-current="true"]`,
       ) as HTMLElement | null;
-      if (currentEl) {
-        currentEl.scrollIntoView({
+      if (currentLine) {
+        currentLine.scrollIntoView({
           block: 'center',
           behavior: 'smooth',
         });
       }
     }
-  }, [state.currentIndex]);
-
-  const chars = useMemo(
-    () => (selectedArticle ? selectedArticle.content.split('') : []),
-    [selectedArticle],
-  );
+  }, [state.currentIndex, chars.length]);
 
   // Realtime stats update timer
   useEffect(() => {
@@ -428,7 +462,7 @@ function PracticeContent() {
         </div>
       </header>
 
-      <main className={styles.main}>
+      <main className={styles.main} ref={mainRef}>
         <div className={styles.articleBar}>
           <span className={styles.articleTitle}>{selectedArticle.title}</span>
           <span className={styles.progress}>
@@ -464,19 +498,56 @@ function PracticeContent() {
           ref={containerRef}
           onClick={() => inputRef.current?.focus()}
         >
-          {chars.map((char, i) => {
-            let charClass = styles.charDefault;
-            if (i < state.inputHistory.length) {
-              charClass =
-                state.inputHistory[i] === char ? styles.charCorrect : styles.charWrong;
-            }
-            if (i === state.currentIndex && !state.isFinished) {
-              charClass = `${charClass} ${styles.charCurrent}`;
-            }
+          {textLines.map((line, lineIdx) => {
+            const currentLineIdx = textLines.findIndex(
+              (l) => state.currentIndex >= l.start && state.currentIndex < l.end,
+            );
+            const isCurrentLine = lineIdx === currentLineIdx;
+            const isCompleted = state.currentIndex >= line.end;
+            const lineChars = chars.slice(line.start, line.end);
+
             return (
-              <span key={i} data-index={i} className={charClass}>
-                {char}
-              </span>
+              <div
+                key={lineIdx}
+                data-line-current={isCurrentLine ? 'true' : 'false'}
+                className={`${styles.textLine} ${isCurrentLine ? styles.textLineCurrent : ''} ${isCompleted ? styles.textLineCompleted : ''}`}
+              >
+                <div className={styles.lineChars}>
+                  {lineChars.map((char, charIdx) => {
+                    const globalIdx = line.start + charIdx;
+                    let charClass = styles.charDefault;
+                    if (globalIdx < state.inputHistory.length) {
+                      charClass =
+                        state.inputHistory[globalIdx] === char
+                          ? styles.charCorrect
+                          : styles.charWrong;
+                    }
+                    if (globalIdx === state.currentIndex && !state.isFinished) {
+                      charClass = `${charClass} ${styles.charCurrent}`;
+                    }
+                    return (
+                      <span
+                        key={globalIdx}
+                        data-index={globalIdx}
+                        className={charClass}
+                      >
+                        {char}
+                      </span>
+                    );
+                  })}
+                </div>
+                {/* Typed text display below each line */}
+                <div className={styles.lineInput}>
+                  {state.inputHistory.slice(line.start, line.end).map((ch, i) => (
+                    <span key={i} className={styles.charCorrect}>
+                      {ch}
+                    </span>
+                  ))}
+                  {isCurrentLine && !state.isFinished && (
+                    <span className={styles.lineCursor}>|</span>
+                  )}
+                </div>
+              </div>
             );
           })}
         </div>

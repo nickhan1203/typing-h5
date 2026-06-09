@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { TypingRecord } from '@/types';
 import { getRecords } from '@/lib/storage';
@@ -103,16 +103,13 @@ const TIMED_OPTIONS = [
 
 export default function HomePage() {
   const [recentRecords, setRecentRecords] = useState<TypingRecord[]>([]);
+  const [allRecords, setAllRecords] = useState<TypingRecord[]>([]);
   const [showTimedPicker, setShowTimedPicker] = useState(false);
 
   useEffect(() => {
     setRecentRecords(getRecords().slice(0, 5));
-  }, []);
-
-  // All records for charts (capped at last 30, ordered chronologically)
-  const allRecords = useMemo(() => {
     const records = getRecords();
-    return records.slice(0, 30).reverse(); // chronological order
+    setAllRecords(records.slice(0, 30).reverse()); // chronological order
   }, []);
 
   const bestSpeed = recentRecords.length > 0 ? Math.max(...recentRecords.map((r) => r.speed)) : 0;

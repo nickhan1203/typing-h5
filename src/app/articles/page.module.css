@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--bg-page);
 }
 
 /* === Header === */
@@ -11,8 +11,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #ffffff;
-  border-bottom: 1px solid #dfdcd9;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border);
 }
 
 .headerInner {
@@ -28,7 +28,7 @@
 .headerTitle {
   font-size: 16px;
   font-weight: 500;
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .headerActions {
@@ -39,21 +39,21 @@
 .backBtn {
   font-size: 14px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   transition: color 0.2s;
   width: 56px;
   text-align: left;
 }
 
 .backBtn:hover {
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .addBtn,
 .saveBtn {
   font-size: 14px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   transition: opacity 0.2s;
 }
 
@@ -65,7 +65,7 @@
 .importBtn {
   font-size: 14px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   transition: opacity 0.2s;
   cursor: pointer;
   position: relative;
@@ -90,30 +90,30 @@
   justify-content: center;
   gap: 8px;
   padding: 8px 20px;
-  background: #fef2f2;
-  border-bottom: 1px solid #fecaca;
+  background: var(--danger-bg);
+  border-bottom: 1px solid var(--danger-border);
   font-size: 13px;
   font-weight: 400;
-  color: #d44c47;
+  color: var(--danger);
 }
 
 .importError button {
   font-size: 16px;
-  color: #d44c47;
+  color: var(--danger);
   padding: 0 4px;
   line-height: 1;
 }
 
 .saveBtn:disabled {
-  color: #a39e98;
+  color: var(--text-muted);
   cursor: not-allowed;
   opacity: 1;
 }
 
 /* === Group Tabs === */
 .groupTabs {
-  background: #ffffff;
-  border-bottom: 1px solid #dfdcd9;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -135,18 +135,18 @@
   padding: 10px 16px;
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   border-bottom: 2px solid transparent;
   transition: color 0.2s, border-color 0.2s;
 }
 
 .groupTab:hover {
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .groupTabActive {
-  color: #373530;
-  border-bottom-color: #373530;
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
 }
 
 /* === Group Header === */
@@ -160,13 +160,13 @@
 .groupName {
   font-size: 14px;
   font-weight: 500;
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .groupCount {
   font-size: 12px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
 }
 
 /* === Main === */
@@ -186,14 +186,14 @@
 }
 
 .articleItem {
-  background: #f6f5f4;
+  background: var(--bg-surface);
   border-radius: 10px;
   padding: 20px;
   transition: background 0.2s, transform 0.2s;
 }
 
 .articleItem:hover {
-  background: #f0efed;
+  background: var(--bg-hover);
   transform: translateY(-1px);
 }
 
@@ -204,21 +204,21 @@
 .articleTitle {
   font-size: 15px;
   font-weight: 500;
-  color: #373530;
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .articleMeta {
   font-size: 12px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
 .articlePreview {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
@@ -226,39 +226,39 @@
   display: flex;
   gap: 8px;
   padding-top: 12px;
-  border-top: 1px solid #dfdcd9;
+  border-top: 1px solid var(--border);
 }
 
 .actionBtn {
   font-size: 13px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   padding: 6px 14px;
   border-radius: 6px;
   transition: background 0.2s;
 }
 
 .actionBtn:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--overlay-subtle);
 }
 
 .actionBtnSecondary {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   padding: 6px 14px;
   border-radius: 6px;
   transition: background 0.2s;
 }
 
 .actionBtnSecondary:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--overlay-subtle);
 }
 
 .actionBtnDanger {
   font-size: 13px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   padding: 6px 14px;
   border-radius: 6px;
   transition: background 0.2s;
@@ -266,7 +266,7 @@
 }
 
 .actionBtnDanger:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--overlay-subtle);
 }
 
 /* === Form (input fields) === */
@@ -285,7 +285,7 @@
 .formLabel {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
@@ -296,8 +296,8 @@
   font-weight: 400;
   border: none;
   border-radius: 8px;
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   transition: background 0.2s;
   cursor: pointer;
   -webkit-appearance: none;
@@ -305,7 +305,7 @@
 }
 
 .select:focus {
-  background: #e8e6e3;
+  background: var(--bg-focus);
 }
 
 .input {
@@ -315,17 +315,17 @@
   font-weight: 400;
   border: none;
   border-radius: 8px;
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   transition: background 0.2s;
 }
 
 .input:focus {
-  background: #e8e6e3;
+  background: var(--bg-focus);
 }
 
 .input::placeholder {
-  color: #a39e98;
+  color: var(--text-muted);
 }
 
 .textarea {
@@ -336,25 +336,25 @@
   line-height: 1.8;
   border: none;
   border-radius: 8px;
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   resize: vertical;
   min-height: 220px;
   transition: background 0.2s;
 }
 
 .textarea:focus {
-  background: #e8e6e3;
+  background: var(--bg-focus);
 }
 
 .textarea::placeholder {
-  color: #a39e98;
+  color: var(--text-muted);
 }
 
 .charCount {
   font-size: 12px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   text-align: right;
 }
 
@@ -367,15 +367,15 @@
 .emptyText {
   font-size: 15px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   margin-bottom: 24px;
 }
 
 .btnPrimary {
   display: inline-block;
   padding: 12px 24px;
-  background: #373530;
-  color: #ffffff;
+  background: var(--text-primary);
+  color: var(--bg-page);
   font-size: 14px;
   font-weight: 400;
   border-radius: 6px;
@@ -383,14 +383,14 @@
 }
 
 .btnPrimary:hover {
-  background: #1a1a1a;
+  background: var(--bg-inverse);
 }
 
 /* === Modal === */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -399,7 +399,7 @@
 }
 
 .modal {
-  background: #ffffff;
+  background: var(--bg-page);
   border-radius: 10px;
   padding: 24px;
   max-width: 320px;
@@ -411,7 +411,7 @@
 .modalTitle {
   font-size: 16px;
   font-weight: 500;
-  color: #373530;
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -419,7 +419,7 @@
 .modalText {
   font-size: 15px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -434,14 +434,14 @@
   padding: 10px;
   font-size: 14px;
   font-weight: 400;
-  color: #787774;
-  background: #f6f5f4;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
   border-radius: 6px;
   transition: background 0.2s;
 }
 
 .modalCancel:hover {
-  background: #f0efed;
+  background: var(--bg-hover);
 }
 
 .modalConfirm {
@@ -449,14 +449,14 @@
   padding: 10px;
   font-size: 14px;
   font-weight: 400;
-  color: #ffffff;
-  background: #373530;
+  color: var(--bg-page);
+  background: var(--text-primary);
   border-radius: 6px;
   transition: background 0.2s;
 }
 
 .modalConfirm:hover {
-  background: #1a1a1a;
+  background: var(--bg-inverse);
 }
 
 .modalCloseBtn {
@@ -465,7 +465,7 @@
   padding: 10px;
   font-size: 14px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   text-align: center;
   border-radius: 6px;
   margin-top: 16px;
@@ -473,7 +473,7 @@
 }
 
 .modalCloseBtn:hover {
-  background: #f6f5f4;
+  background: var(--bg-surface);
 }
 
 /* === Group Manager === */
@@ -482,7 +482,7 @@
   gap: 8px;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #dfdcd9;
+  border-bottom: 1px solid var(--border);
 }
 
 .groupInput {
@@ -492,24 +492,24 @@
   font-weight: 400;
   border: none;
   border-radius: 8px;
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   transition: background 0.2s;
 }
 
 .groupInput:focus {
-  background: #e8e6e3;
+  background: var(--bg-focus);
 }
 
 .groupInput::placeholder {
-  color: #a39e98;
+  color: var(--text-muted);
 }
 
 .groupSaveBtn {
   padding: 10px 16px;
   font-size: 13px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   border-radius: 6px;
   transition: opacity 0.2s;
   flex-shrink: 0;
@@ -520,7 +520,7 @@
 }
 
 .groupSaveBtn:disabled {
-  color: #a39e98;
+  color: var(--text-muted);
   cursor: not-allowed;
   opacity: 1;
 }
@@ -529,20 +529,20 @@
   padding: 10px 12px;
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   border-radius: 6px;
   transition: background 0.2s;
   flex-shrink: 0;
 }
 
 .groupCancelBtn:hover {
-  background: #f6f5f4;
+  background: var(--bg-surface);
 }
 
 .noGroups {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   text-align: center;
   padding: 16px 0;
 }
@@ -560,13 +560,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  background: #f6f5f4;
+  background: var(--bg-surface);
   border-radius: 8px;
   transition: background 0.2s;
 }
 
 .groupItem:hover {
-  background: #f0efed;
+  background: var(--bg-hover);
 }
 
 .groupItemInfo {
@@ -578,13 +578,13 @@
 .groupItemName {
   font-size: 14px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .groupItemCount {
   font-size: 12px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
 }
 
 .groupItemActions {
@@ -595,27 +595,27 @@
 .groupEditBtn {
   font-size: 12px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   padding: 4px 10px;
   border-radius: 4px;
   transition: background 0.2s;
 }
 
 .groupEditBtn:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--overlay-subtle);
 }
 
 .groupDeleteBtn {
   font-size: 12px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   padding: 4px 10px;
   border-radius: 4px;
   transition: background 0.2s;
 }
 
 .groupDeleteBtn:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--overlay-subtle);
 }
 
 /* === Move Article Modal === */
@@ -633,18 +633,18 @@
   padding: 12px 16px;
   font-size: 14px;
   font-weight: 400;
-  color: #373530;
-  background: #f6f5f4;
+  color: var(--text-primary);
+  background: var(--bg-surface);
   border-radius: 8px;
   transition: background 0.2s;
   width: 100%;
 }
 
 .moveItem:hover {
-  background: #f0efed;
+  background: var(--bg-hover);
 }
 
 .moveCheck {
-  color: #373530;
+  color: var(--text-primary);
   font-size: 14px;
 }

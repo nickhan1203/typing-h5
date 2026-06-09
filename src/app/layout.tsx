@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { ThemeProvider, ThemeToggle } from '@/lib/theme';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -19,8 +20,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
-      <body>{children}</body>
+    <html lang="zh-CN" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
+          <ThemeToggle />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

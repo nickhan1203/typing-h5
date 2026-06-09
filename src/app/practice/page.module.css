@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--bg-page);
 }
 
 /* === Header === */
@@ -11,8 +11,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #ffffff;
-  border-bottom: 1px solid #dfdcd9;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border);
 }
 
 .headerInner {
@@ -34,7 +34,7 @@
 .headerTitle {
   font-size: 16px;
   font-weight: 500;
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .headerSpacer {
@@ -44,20 +44,20 @@
 .backBtn {
   font-size: 14px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   transition: color 0.2s;
   width: 56px;
   text-align: left;
 }
 
 .backBtn:hover {
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .switchBtn {
   font-size: 13px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   width: 56px;
   text-align: right;
   transition: opacity 0.2s;
@@ -70,7 +70,7 @@
 .pickerSortBtn {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   padding: 4px 8px;
   border-radius: 4px;
   transition: background 0.2s, color 0.2s;
@@ -78,22 +78,22 @@
 }
 
 .pickerSortBtn:hover {
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
 }
 
 /* === Timer === */
 .timer {
   font-size: 22px;
   font-weight: 300;
-  color: #373530;
+  color: var(--text-primary);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.5px;
   transition: color 0.3s;
 }
 
 .timerUrgent {
-  color: #d44c47;
+  color: var(--danger);
   animation: pulse 0.6s ease-in-out infinite alternate;
 }
 
@@ -122,6 +122,47 @@
   }
 }
 
+/* ── Responsive: Tablet ── */
+@media (max-width: 640px) {
+  .main {
+    padding: 16px 14px 32px;
+  }
+  .headerInner {
+    padding: 0 14px;
+  }
+}
+
+/* ── Responsive: Phone ── */
+@media (max-width: 400px) {
+  .main {
+    padding: 12px 10px 24px;
+  }
+  .headerInner {
+    padding: 0 10px;
+  }
+  .headerTitle {
+    font-size: 14px;
+  }
+  .backBtn,
+  .switchBtn {
+    font-size: 12px;
+    width: 44px;
+  }
+  .headerSpacer {
+    width: 44px;
+  }
+  .statValue {
+    font-size: 18px;
+  }
+  .statLabel {
+    font-size: 10px;
+  }
+  .statsBar {
+    gap: 10px;
+    padding: 12px 10px;
+  }
+}
+
 /* === Article Bar === */
 .articleBar {
   display: flex;
@@ -133,13 +174,13 @@
 .articleTitle {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
 }
 
 .progress {
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -151,7 +192,7 @@
   gap: 16px;
   padding: 16px 16px;
   margin-bottom: 16px;
-  background: #f6f5f4;
+  background: var(--bg-surface);
   border-radius: 10px;
 }
 
@@ -166,7 +207,7 @@
 .statValue {
   font-size: 22px;
   font-weight: 300;
-  color: #373530;
+  color: var(--text-primary);
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
 }
@@ -174,57 +215,129 @@
 .statLabel {
   font-size: 11px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .statDivider {
   width: 1px;
   height: 32px;
-  background: #dfdcd9;
+  background: var(--border);
 }
 
 /* === Text Area (typing display) === */
 .textArea {
   position: relative;
-  background: #f6f5f4;
-  border-radius: 10px;
-  padding: 24px 20px;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 1.9;
-  letter-spacing: 1.5px;
-  min-height: 220px;
-  max-height: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 55vh;
   overflow-y: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  word-break: break-all;
+  touch-action: pan-y;
   cursor: text;
   user-select: none;
+  padding-bottom: 8px;
 }
 
-/* Tighter max-height when keyboard is likely open (short viewport) */
+/* Hide scrollbar */
+.textArea::-webkit-scrollbar {
+  display: none;
+}
+.textArea {
+  scrollbar-width: none;
+}
+
 @media (max-height: 600px) {
   .textArea {
-    max-height: 200px;
+    max-height: 40vh;
   }
 }
 
+/* === Text Line === */
+.textLine {
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 16px);
+  transition: background 0.2s, border-color 0.2s;
+  width: 100%;
+}
+
+.textLineCurrent {
+  background: var(--bg-page);
+  border-color: var(--text-primary);
+}
+
+.textLineCompleted {
+  background: var(--bg-surface);
+}
+
+/* === Line Chars (original text) === */
+.lineChars {
+  font-size: clamp(16px, 5vw, 22px);
+  font-weight: 400;
+  height: 1.8em;
+  line-height: 1.8;
+  letter-spacing: clamp(1px, 0.4vw, 2px);
+  white-space: nowrap;
+}
+
+/* === Line Input (typed text preview below original) === */
+.lineInput {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+  font-size: clamp(16px, 5vw, 22px);
+  font-weight: 400;
+  height: 1.8em;
+  line-height: 1.8;
+  letter-spacing: clamp(1px, 0.4vw, 2px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+/* Responsive: tighter spacing on small screens */
+@media (max-width: 400px) {
+  .textArea {
+    gap: 4px;
+  }
+  .textLine {
+    padding: 8px 10px;
+  }
+  .lineInput {
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+}
+
+.lineCursor {
+  color: var(--text-primary);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* === Char states === */
 .charDefault {
-  color: #a39e98;
+  color: var(--text-muted);
 }
 
 .charCorrect {
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .charWrong {
-  color: #d44c47;
+  color: var(--danger);
 }
 
 .charCurrent {
-  border-bottom: 2.5px solid #373530;
+  border-bottom: 2.5px solid var(--text-primary);
 }
 
 /* === Hidden Input === */
@@ -245,7 +358,7 @@
   text-align: center;
   font-size: 13px;
   font-weight: 400;
-  color: #a39e98;
+  color: var(--text-muted);
   margin-top: 20px;
 }
 
@@ -255,22 +368,22 @@
   margin: 20px auto 0;
   font-size: 13px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   padding: 8px 20px;
   border-radius: 6px;
   transition: background 0.2s, color 0.2s;
 }
 
 .resetBtn:hover {
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
 }
 
 /* === Article Picker List === */
 .articleList {
   display: flex;
   flex-direction: column;
-  background: #f6f5f4;
+  background: var(--bg-surface);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -280,33 +393,33 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background: #ffffff;
+  background: var(--bg-page);
   text-align: left;
   transition: background 0.2s;
 }
 
 .articleItem + .articleItem {
-  border-top: 1px solid #dfdcd9;
+  border-top: 1px solid var(--border);
 }
 
 .articleItem:hover {
-  background: #f6f5f4;
+  background: var(--bg-surface);
 }
 
 .articleItemActive {
-  background: #f6f5f4;
+  background: var(--bg-surface);
 }
 
 .articleItemTitle {
   font-size: 15px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
 }
 
 .articleItemLen {
   font-size: 12px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
 }
 
 /* === Empty State === */
@@ -318,13 +431,13 @@
 .emptyText {
   font-size: 15px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   margin-bottom: 24px;
 }
 
 /* === Result Card === */
 .resultCard {
-  background: #f6f5f4;
+  background: var(--bg-surface);
   border-radius: 10px;
   padding: 40px 24px 32px;
   text-align: center;
@@ -337,7 +450,7 @@
 .resultSpeed {
   font-size: 56px;
   font-weight: 300;
-  color: #373530;
+  color: var(--text-primary);
   letter-spacing: -1px;
   line-height: 1;
   display: block;
@@ -347,7 +460,7 @@
 .resultUnit {
   font-size: 14px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   margin-top: 8px;
   display: block;
 }
@@ -359,7 +472,7 @@
 }
 
 .resultItem {
-  background: #ffffff;
+  background: var(--bg-page);
   border-radius: 8px;
   padding: 16px 12px;
 }
@@ -367,7 +480,7 @@
 .resultValue {
   font-size: 22px;
   font-weight: 400;
-  color: #373530;
+  color: var(--text-primary);
   display: block;
   font-variant-numeric: tabular-nums;
 }
@@ -375,7 +488,7 @@
 .resultLabel {
   font-size: 12px;
   font-weight: 400;
-  color: #787774;
+  color: var(--text-secondary);
   margin-top: 4px;
   display: block;
 }
@@ -392,8 +505,8 @@
   display: block;
   width: 100%;
   padding: 14px;
-  background: #373530;
-  color: #ffffff;
+  background: var(--text-primary);
+  color: var(--bg-page);
   font-size: 15px;
   font-weight: 400;
   border-radius: 6px;
@@ -402,15 +515,15 @@
 }
 
 .btnPrimary:hover {
-  background: #1a1a1a;
+  opacity: 0.85;
 }
 
 .btnSecondary {
   display: block;
   width: 100%;
   padding: 14px;
-  background: #f6f5f4;
-  color: #373530;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   font-size: 15px;
   font-weight: 400;
   border-radius: 6px;
@@ -419,5 +532,34 @@
 }
 
 .btnSecondary:hover {
-  background: #f0efed;
+  background: var(--bg-hover);
+}
+
+/* ── Responsive: Result Card ── */
+@media (max-width: 400px) {
+  .resultCard {
+    padding: 28px 16px 24px;
+  }
+  .resultSpeed {
+    font-size: 42px;
+  }
+  .resultGrid {
+    gap: 6px;
+  }
+  .resultItem {
+    padding: 12px 8px;
+  }
+  .resultValue {
+    font-size: 18px;
+  }
+}
+
+/* ── Responsive: Article Picker ── */
+@media (max-width: 400px) {
+  .articleItem {
+    padding: 12px 14px;
+  }
+  .articleItemTitle {
+    font-size: 14px;
+  }
 }

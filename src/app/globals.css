@@ -1,3 +1,75 @@
+/* ── Design Tokens ── */
+:root {
+  --bg-page: #ffffff;
+  --bg-surface: #f6f5f4;
+  --bg-hover: #f0efed;
+  --bg-focus: #e8e6e3;
+  --bg-inverse: #1a1a1a;
+  --border: #dfdcd9;
+  --text-primary: #373530;
+  --text-secondary: #787774;
+  --text-muted: #a39e98;
+  --danger: #d44c47;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+  --overlay-subtle: rgba(0, 0, 0, 0.04);
+  --overlay: rgba(0, 0, 0, 0.2);
+  --overlay-heavy: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] {
+  --bg-page: #1a1a1a;
+  --bg-surface: #2a2a2a;
+  --bg-hover: #333333;
+  --bg-focus: #3a3a3a;
+  --bg-inverse: #e0e0e0;
+  --border: #3a3a3a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #999999;
+  --text-muted: #666666;
+  --danger: #f87171;
+  --danger-bg: #3b1a1a;
+  --danger-border: #5c2a2a;
+  --overlay-subtle: rgba(255, 255, 255, 0.04);
+  --overlay: rgba(0, 0, 0, 0.5);
+  --overlay-heavy: rgba(0, 0, 0, 0.6);
+}
+
+/* ── View Transition: diagonal wipe top-right → bottom-left ── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: vtWipe 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes vtWipe {
+  from {
+    clip-path: circle(0% at 100% 0);
+  }
+  to {
+    clip-path: circle(150% at 100% 0);
+  }
+}
+
+/* ── Fallback: smooth element color transition (non-Chrome browsers) ── */
+:where([data-theme] *),
+:where([data-theme] *::before),
+:where([data-theme] *::after) {
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease;
+}
+
 /* === Reset & Base === */
 *,
 *::before,
@@ -10,12 +82,13 @@
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  background-color: var(--bg-page);
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #ffffff;
-  color: #373530;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,6 +106,7 @@ button {
   background: none;
   font-family: inherit;
   font-size: inherit;
+  color: inherit;
 }
 
 input,
@@ -41,9 +115,9 @@ textarea {
   font-size: inherit;
   outline: none;
   border: none;
-  color: #373530;
+  color: var(--text-primary);
 }
 
 ::placeholder {
-  color: #a39e98;
+  color: var(--text-muted);
 }
