@@ -152,7 +152,7 @@ function PracticeContent() {
 
   useEffect(() => {
     if (!showArticlePicker && !showResult && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus({ preventScroll: true });
     }
   }, [showArticlePicker, showResult, selectedArticle]);
 
@@ -170,18 +170,28 @@ function PracticeContent() {
     return lines;
   }, [chars, lineLength]);
 
-  // Auto-scroll to follow current line
+  // Auto-scroll to follow current line (only when it leaves the visible area)
   useEffect(() => {
-    if (containerRef.current && state.currentIndex < chars.length) {
-      const currentLine = containerRef.current.querySelector(
-        `[data-line-current="true"]`,
-      ) as HTMLElement | null;
-      if (currentLine) {
-        currentLine.scrollIntoView({
-          block: 'center',
-          behavior: 'smooth',
-        });
-      }
+    const container = containerRef.current;
+    if (!container || state.currentIndex >= chars.length) return;
+
+    const currentLine = container.querySelector(
+      `[data-line-current="true"]`,
+    ) as HTMLElement | null;
+    if (!currentLine) return;
+
+    const cr = container.getBoundingClientRect();
+    const lr = currentLine.getBoundingClientRect();
+
+    // Only scroll if the current line is not fully inside the container
+    const isAbove = lr.top < cr.top;
+    const isBelow = lr.bottom > cr.bottom;
+
+    if (isAbove || isBelow) {
+      currentLine.scrollIntoView({
+        block: isAbove ? 'start' : 'end',
+        behavior: 'instant',
+      });
     }
   }, [state.currentIndex, chars.length]);
 
@@ -311,7 +321,7 @@ function PracticeContent() {
     setRealtimeStats({ elapsedSeconds: 0, wpm: 0, cpm: 0, accuracy: 100, typedCount: 0, totalCount: 0 });
     setShowResult(false);
     setResultData(null);
-    setTimeout(() => inputRef.current?.focus(), 0);
+    setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0);
   }, []);
 
   const handleSelectArticle = useCallback(
@@ -496,12 +506,13 @@ function PracticeContent() {
         <div
           className={styles.textArea}
           ref={containerRef}
-          onClick={() => inputRef.current?.focus()}
+          onClick={() => inputRef.current?.focus({ preventScroll: true })}
         >
-          {textLines.map((line, lineIdx) => {
+          {(() => {
             const currentLineIdx = textLines.findIndex(
               (l) => state.currentIndex >= l.start && state.currentIndex < l.end,
             );
+            return textLines.map((line, lineIdx) => {
             const isCurrentLine = lineIdx === currentLineIdx;
             const isCompleted = state.currentIndex >= line.end;
             const lineChars = chars.slice(line.start, line.end);
@@ -549,7 +560,8 @@ function PracticeContent() {
                 </div>
               </div>
             );
-          })}
+          });
+          })()}
         </div>
 
         <textarea
@@ -568,7 +580,7 @@ function PracticeContent() {
         />
 
         {!state.isStarted && (
-          <p className={styles.hint} onClick={() => inputRef.current?.focus()}>
+          <p className={styles.hint} onClick={() => inputRef.current?.focus({ preventScroll: true })}>
             点击上方文字区域开始打字
           </p>
         )}
