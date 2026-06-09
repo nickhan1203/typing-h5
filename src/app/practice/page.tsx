@@ -63,29 +63,28 @@ function PracticeContent() {
   const currentIndexRef = useRef(0);
   const startTimeRef = useRef<number | null>(null);
 
-  // Responsive line length based on container width
+  // Responsive line length — only update state on significant change
   const [lineLength, setLineLength] = useState(20);
   const lineLengthRef = useRef(20);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const calc = () => {
+    const measure = () => {
       const w = el.clientWidth;
-      // Measure actual rendered character width from an existing span
       const sample = el.querySelector('[data-index]') as HTMLElement | null;
       if (sample) {
         const charW = sample.getBoundingClientRect().width;
         const len = Math.max(4, Math.floor((w - 36) / charW));
-        setLineLength(len);
         lineLengthRef.current = len;
+        // Only update state if difference >= 2 chars (prevent minor jitter)
+        setLineLength((prev) => (Math.abs(prev - len) >= 2 ? len : prev));
       }
     };
-    // Delay first measurement to ensure spans are rendered
-    setTimeout(calc, 0);
-    const observer = new ResizeObserver(calc);
+    setTimeout(measure, 50);
+    const observer = new ResizeObserver(measure);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [selectedArticle]); // remeasure when article changes
+  }, [selectedArticle]);
 
   useEffect(() => {
     const loadedArticles = getArticles();
@@ -170,28 +169,35 @@ function PracticeContent() {
     return lines;
   }, [chars, lineLength]);
 
-  // Auto-scroll to follow current line (only when it leaves the visible area)
+  // Auto-scroll: keep current line as the 2nd visible row from top
+  const prevLineRef = useRef(-1);
   useEffect(() => {
+    const currentLineIdx =
+      lineLengthRef.current > 0
+        ? Math.floor(state.currentIndex / lineLengthRef.current)
+        : 0;
+
+    if (currentLineIdx === prevLineRef.current) return;
+    prevLineRef.current = currentLineIdx;
+
     const container = containerRef.current;
     if (!container || state.currentIndex >= chars.length) return;
 
     const currentLine = container.querySelector(
-      `[data-line-current="true"]`,
+      '[data-line-current="true"]',
     ) as HTMLElement | null;
     if (!currentLine) return;
 
-    const cr = container.getBoundingClientRect();
-    const lr = currentLine.getBoundingClientRect();
+    const lineH = currentLine.offsetHeight;
+    const gap = 6;
+    // Position current line as 2nd row (1st row has no lines above)
+    const targetOffset = currentLineIdx === 0 ? 0 : (lineH + gap) * 1;
 
-    // Only scroll if the current line is not fully inside the container
-    const isAbove = lr.top < cr.top;
-    const isBelow = lr.bottom > cr.bottom;
+    const lineTop = currentLine.offsetTop;
+    const newScrollTop = lineTop - targetOffset;
 
-    if (isAbove || isBelow) {
-      currentLine.scrollIntoView({
-        block: isAbove ? 'start' : 'end',
-        behavior: 'instant',
-      });
+    if (Math.abs(container.scrollTop - newScrollTop) > 4) {
+      container.scrollTop = newScrollTop;
     }
   }, [state.currentIndex, chars.length]);
 
@@ -321,6 +327,7 @@ function PracticeContent() {
     setRealtimeStats({ elapsedSeconds: 0, wpm: 0, cpm: 0, accuracy: 100, typedCount: 0, totalCount: 0 });
     setShowResult(false);
     setResultData(null);
+    prevLineRef.current = -1;
     setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0);
   }, []);
 

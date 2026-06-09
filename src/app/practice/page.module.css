@@ -233,11 +233,11 @@
   gap: 6px;
   max-height: 55vh;
   overflow-y: auto;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   cursor: text;
   user-select: none;
+  padding-top: 6px;
   padding-bottom: 8px;
 }
 
